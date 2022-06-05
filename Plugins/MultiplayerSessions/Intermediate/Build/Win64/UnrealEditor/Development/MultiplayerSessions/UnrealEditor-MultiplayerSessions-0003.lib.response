@@ -1,0 +1,13 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UnrealEditor-MultiplayerSessions-0003.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"E:\UnrealProjects\SteamOnlineConfig\Intermediate\Build\Win64\SteamOnlineConfigEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.obj"
+"E:\UnrealProjects\SteamOnlineConfig\Plugins\MultiplayerSessions\Intermediate\Build\Win64\UnrealEditor\Development\MultiplayerSessions\Module.MultiplayerSessions.cpp.obj"
+"E:\UnrealProjects\SteamOnlineConfig\Plugins\MultiplayerSessions\Intermediate\Build\Win64\UnrealEditor\Development\MultiplayerSessions\Module.MultiplayerSessions.gen.cpp.obj"
+"E:\UnrealProjects\SteamOnlineConfig\Plugins\MultiplayerSessions\Intermediate\Build\Win64\UnrealEditor\Development\MultiplayerSessions\Default.rc2.res"
+/OUT:"E:\UnrealProjects\SteamOnlineConfig\Plugins\MultiplayerSessions\Intermediate\Build\Win64\UnrealEditor\Development\MultiplayerSessions\UnrealEditor-MultiplayerSessions-0003.lib"
