@@ -3,8 +3,10 @@
 
 #include "MultiplayerMenu.h"
 
-void UMultiplayerMenu::MultiplayerMenuSetup()
+void UMultiplayerMenu::MultiplayerMenuSetup(int32 NumberOfPublicConnections, FString TypeOfMatch)
 {
+	NumPublicConnections = NumberOfPublicConnections;
+	MatchType = TypeOfMatch;
 	AddToViewport();
 	SetVisibility(ESlateVisibility::Visible);
 	bIsFocusable = true;
@@ -19,6 +21,15 @@ void UMultiplayerMenu::MultiplayerMenuSetup()
 			PlayerController->SetInputMode(InputModeData);
 			PlayerController->SetShowMouseCursor(true);
 		}
+	}
+
+	UGameInstance* GameInstance = GetGameInstance();
+	if (GameInstance) {
+		MultiplayerSessionsSubsystem = GameInstance->GetSubsystem<UMultiplayerSessionsSubsystem>();
+	}
+
+	if (MultiplayerSessionsSubsystem) {
+		MultiplayerSessionsSubsystem->MultiplayerOnCreateSessionComplete.AddDynamic(this, &ThisClass::OnCreateSession);
 	}
 }
 
@@ -39,15 +50,45 @@ bool UMultiplayerMenu::Initialize()
 	return true;
 }
 
+void UMultiplayerMenu::OnLevelRemovedFromWorld(ULevel* InLevel, UWorld* InWorld)
+{
+	MenuTearDown();
+	Super::OnLevelRemovedFromWorld(InLevel, InWorld);
+}
+
+void UMultiplayerMenu::OnCreateSession(bool bWasSuccessful)
+{
+	if (bWasSuccessful) {
+		if (GEngine) {
+			GEngine->AddOnScreenDebugMessage(
+				-1,
+				15.f,
+				FColor::Yellow,
+				FString(TEXT("Session Created Successfully"))
+			);
+		}
+
+		UWorld* World = GetWorld();
+		if (World) {
+			World->ServerTravel("/Game/ThirdPerson/Maps/LobbyMap?listen");
+		}
+	}
+	else {
+		if (GEngine) {
+			GEngine->AddOnScreenDebugMessage(
+				-1,
+				15.f,
+				FColor::Red,
+				FString(TEXT("Failed to create session"))
+			);
+		}
+	}
+}
+
 void UMultiplayerMenu::HostButtonClicked()
 {
-	if (GEngine) {
-		GEngine->AddOnScreenDebugMessage(
-			-1,
-			15.f,
-			FColor::Yellow,
-			FString(TEXT("Host Button Clicked"))
-		);
+	if (MultiplayerSessionsSubsystem) {
+		MultiplayerSessionsSubsystem->CreateSession(NumPublicConnections, MatchType);
 	}
 }
 
@@ -60,5 +101,20 @@ void UMultiplayerMenu::JoinButtonClicked()
 			FColor::Yellow,
 			FString(TEXT("Join Button Clicked"))
 		);
+	}
+
+}
+
+void UMultiplayerMenu::MenuTearDown()
+{
+	RemoveFromParent();
+	UWorld* World = GetWorld();
+	if (World) {
+		APlayerController* PlayerController = World->GetFirstPlayerController();
+		if (PlayerController) {
+			FInputModeGameOnly InputDataMode;
+			PlayerController->SetInputMode(InputDataMode);
+			PlayerController->SetShowMouseCursor(false);
+		}
 	}
 }

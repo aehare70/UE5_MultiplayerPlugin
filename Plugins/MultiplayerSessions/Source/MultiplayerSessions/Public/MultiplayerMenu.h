@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
+#include "MultiplayerSessionsSubsystem.h"
 #include "MultiplayerMenu.generated.h"
 
 /**
@@ -18,10 +19,17 @@ class MULTIPLAYERSESSIONS_API UMultiplayerMenu : public UUserWidget
 
 public:
 	UFUNCTION(BlueprintCallable)
-	void MultiplayerMenuSetup();
+	void MultiplayerMenuSetup(int32 NumberOfPublicConnections = 4, FString TypeOfMatch = FString(TEXT("FreeForAll")));
 
 protected:
 	virtual bool Initialize() override;
+	virtual void OnLevelRemovedFromWorld(ULevel* InLevel, UWorld* InWorld) override;
+
+	//
+	// Callbacks for the custom delegates
+	//
+	UFUNCTION()
+	void OnCreateSession(bool bWasSuccessful);
 
 private:
 	UPROPERTY(meta = (BindWidget))
@@ -36,6 +44,11 @@ private:
 	UFUNCTION()
 	void JoinButtonClicked();
 
+	void MenuTearDown();
+
 	// The subsystem for online system functionalities
 	class UMultiplayerSessionsSubsystem* MultiplayerSessionsSubsystem;
+
+	int32 NumPublicConnections{ 4 };
+	FString MatchType{ TEXT("FreeForAll") };
 };
