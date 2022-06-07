@@ -2,6 +2,9 @@
 
 
 #include "MultiplayerMenu.h"
+#include "OnlineSessionSettings.h"
+#include "OnlineSubsystem.h"
+#include "Interfaces/OnlineSessionInterface.h"
 
 void UMultiplayerMenu::MultiplayerMenuSetup(int32 NumberOfPublicConnections, FString TypeOfMatch)
 {
@@ -30,6 +33,10 @@ void UMultiplayerMenu::MultiplayerMenuSetup(int32 NumberOfPublicConnections, FSt
 
 	if (MultiplayerSessionsSubsystem) {
 		MultiplayerSessionsSubsystem->MultiplayerOnCreateSessionComplete.AddDynamic(this, &ThisClass::OnCreateSession);
+		MultiplayerSessionsSubsystem->MultiplayerOnFindSessionsComplete.AddUObject(this, &ThisClass::OnFindSessions);
+		MultiplayerSessionsSubsystem->MultiplayerOnJoinSessionComplete.AddUObject(this, &ThisClass::OnJoinSession);
+		MultiplayerSessionsSubsystem->MultiplayerOnDestroySessionComplete.AddDynamic(this, &ThisClass::OnDestroySession);
+		MultiplayerSessionsSubsystem->MultiplayerOnStartSessionComplete.AddDynamic(this, &ThisClass::OnStartSession);
 	}
 }
 
@@ -59,6 +66,8 @@ void UMultiplayerMenu::OnLevelRemovedFromWorld(ULevel* InLevel, UWorld* InWorld)
 void UMultiplayerMenu::OnCreateSession(bool bWasSuccessful)
 {
 	if (bWasSuccessful) {
+
+		// DebugMsg - Session Creation Success
 		if (GEngine) {
 			GEngine->AddOnScreenDebugMessage(
 				-1,
@@ -74,6 +83,8 @@ void UMultiplayerMenu::OnCreateSession(bool bWasSuccessful)
 		}
 	}
 	else {
+
+		// DebugMsg - Session Creation Fail
 		if (GEngine) {
 			GEngine->AddOnScreenDebugMessage(
 				-1,
@@ -83,6 +94,73 @@ void UMultiplayerMenu::OnCreateSession(bool bWasSuccessful)
 			);
 		}
 	}
+}
+
+void UMultiplayerMenu::OnFindSessions(const TArray<FOnlineSessionSearchResult>& SessionResults, bool bWasSuccessful)
+{
+	// Subsystem valid check
+	if (MultiplayerSessionsSubsystem == nullptr) {
+		return;
+	}
+
+	// Get session search results
+	for (auto Result : SessionResults) {
+		FString Id = Result.GetSessionIdStr();
+		FString SettingsValue;
+		Result.Session.SessionSettings.Get(FName("MatchType"), SettingsValue);
+
+		if (SettingsValue == MatchType) {
+			MultiplayerSessionsSubsystem->JoinSession(Result);
+			if (GEngine) {
+				GEngine->AddOnScreenDebugMessage(
+					-1,
+					15.f,
+					FColor::Blue,
+					FString::Printf(TEXT("Found Session: %s"), *Id)
+				);
+			}
+			return;
+		}
+	}
+}
+
+void UMultiplayerMenu::OnJoinSession(EOnJoinSessionCompleteResult::Type Result)
+{
+	// Get a copy of Session Interface from Subsystem
+	IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get();
+	if (Subsystem) {
+		IOnlineSessionPtr SessionInterface = Subsystem->GetSessionInterface();
+
+		if (SessionInterface.IsValid()) {
+
+			// Get resolved connect string
+			FString Address;
+			SessionInterface->GetResolvedConnectString(NAME_GameSession, Address);
+			if (GEngine) {
+				GEngine->AddOnScreenDebugMessage(
+					-1,
+					15.f,
+					FColor::Blue,
+					FString::Printf(TEXT("Target Address: %s"), *Address)
+				);
+			}
+
+			// Call client travel
+			APlayerController* PlayerController = GetGameInstance()->GetFirstLocalPlayerController();
+			if (PlayerController) {
+				PlayerController->ClientTravel(Address, ETravelType::TRAVEL_Absolute);
+			}
+		}
+	}
+}
+
+void UMultiplayerMenu::OnDestroySession(bool bWasSuccessful)
+{
+}
+
+void UMultiplayerMenu::OnStartSession(bool bWasSuccessful)
+{
+
 }
 
 void UMultiplayerMenu::HostButtonClicked()
@@ -103,6 +181,9 @@ void UMultiplayerMenu::JoinButtonClicked()
 		);
 	}
 
+	if (MultiplayerSessionsSubsystem) {
+		MultiplayerSessionsSubsystem->FindSessions(10000);
+	}
 }
 
 void UMultiplayerMenu::MenuTearDown()

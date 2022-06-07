@@ -157,14 +157,14 @@
             "e:\\ue_5.0\\engine\\plugins\\online\\onlinesubsystem\\source\\public\\onlinesubsystempackage.h",
             "e:\\unrealprojects\\steamonlineconfig\\plugins\\multiplayersessions\\intermediate\\build\\win64\\unrealeditor\\inc\\multiplayersessions\\multiplayersessionssubsystem.generated.h",
             "e:\\unrealprojects\\steamonlineconfig\\plugins\\multiplayersessions\\intermediate\\build\\win64\\unrealeditor\\inc\\multiplayersessions\\multiplayermenu.generated.h",
-            "e:\\unrealprojects\\steamonlineconfig\\plugins\\multiplayersessions\\source\\multiplayersessions\\private\\multiplayersessions.cpp",
-            "e:\\unrealprojects\\steamonlineconfig\\plugins\\multiplayersessions\\source\\multiplayersessions\\public\\multiplayersessions.h",
-            "e:\\unrealprojects\\steamonlineconfig\\plugins\\multiplayersessions\\source\\multiplayersessions\\private\\multiplayersessionssubsystem.cpp",
-            "e:\\ue_5.0\\engine\\plugins\\online\\onlinesubsystem\\source\\public\\onlinesubsystem.h",
-            "e:\\ue_5.0\\engine\\plugins\\online\\onlinesubsystem\\source\\public\\onlinesubsystemmodule.h",
             "e:\\ue_5.0\\engine\\plugins\\online\\onlinesubsystem\\source\\public\\onlinesessionsettings.h",
             "e:\\ue_5.0\\engine\\plugins\\online\\onlinesubsystem\\source\\public\\onlinesubsystempackage.h",
-            "e:\\ue_5.0\\engine\\plugins\\online\\onlinebase\\source\\public\\online\\onlinesessionnames.h"
+            "e:\\ue_5.0\\engine\\plugins\\online\\onlinebase\\source\\public\\online\\onlinesessionnames.h",
+            "e:\\ue_5.0\\engine\\plugins\\online\\onlinesubsystem\\source\\public\\onlinesubsystem.h",
+            "e:\\ue_5.0\\engine\\plugins\\online\\onlinesubsystem\\source\\public\\onlinesubsystemmodule.h",
+            "e:\\unrealprojects\\steamonlineconfig\\plugins\\multiplayersessions\\source\\multiplayersessions\\private\\multiplayersessions.cpp",
+            "e:\\unrealprojects\\steamonlineconfig\\plugins\\multiplayersessions\\source\\multiplayersessions\\public\\multiplayersessions.h",
+            "e:\\unrealprojects\\steamonlineconfig\\plugins\\multiplayersessions\\source\\multiplayersessions\\private\\multiplayersessionssubsystem.cpp"
         ],
         "ImportedModules": [],
         "ImportedHeaderUnits": []
