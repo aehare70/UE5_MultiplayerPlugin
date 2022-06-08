@@ -65,6 +65,9 @@ private:
 	IOnlineSessionPtr SessionInterface;
 	TSharedPtr<FOnlineSessionSettings> LastSessionSettings;
 	TSharedPtr<FOnlineSessionSearch> LastSessionSearch;
+	bool bCreateSessionOnDestroy{false};
+	int32 LastNumOfPublicConnections{4};
+	FString LastMatchType{TEXT("FreeForAll")};
 
 	//
 	// To add to the Online Session Interface delegate list.

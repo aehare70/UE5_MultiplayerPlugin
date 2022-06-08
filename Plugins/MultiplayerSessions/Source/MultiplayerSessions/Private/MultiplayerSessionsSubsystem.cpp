@@ -39,7 +39,11 @@ void UMultiplayerSessionsSubsystem::CreateSession(int32 NumPublicConnections, FS
 	// Check if there is an existing session
 	auto ExistingSession = SessionInterface->GetNamedSession(NAME_GameSession);
 	if (ExistingSession != nullptr) {
-		SessionInterface->DestroySession(NAME_GameSession);
+		bCreateSessionOnDestroy = true;
+		LastNumPublicConnections = NumPublicConnections;
+		LastMatchType = MatchType;
+		DestroySession();
+		return;
 	}
 
 	// Add delegate handle
@@ -67,6 +71,7 @@ void UMultiplayerSessionsSubsystem::CreateSession(int32 NumPublicConnections, FS
 		);
 	}
 
+	// Session interface call - Create Session
 	const ULocalPlayer* LocalPlayer = GetWorld()->GetFirstLocalPlayerFromController();
 	if (!SessionInterface->CreateSession(*LocalPlayer->GetPreferredUniqueNetId(), NAME_GameSession, *LastSessionSettings)) {
 		SessionInterface->ClearOnCreateSessionCompleteDelegate_Handle(CreateSessionCompleteDelegateHandle);
@@ -123,6 +128,20 @@ void UMultiplayerSessionsSubsystem::JoinSession(const FOnlineSessionSearchResult
 
 void UMultiplayerSessionsSubsystem::DestroySession()
 {
+	// Broadcast error if session interface is invalid
+	if (!SessionInterface.IsValid()) {
+		MultiplayerOnDestroySessionComplete.Broadcast(false);
+		return;
+	}
+	
+	// Add delegate handle
+	DestroySessionCompleteDelegateHandle = SessionInterface->AddOnDestroySessionCompleteDelegate_Handle(DestroySessionCompleteDelegate);
+	
+	// Session interface call - Destroy Session
+	if (!SessionInterface->DestroySession(NAME_GameSession)) {
+		SessionInterface->ClearOnDestroySessionCompleteDelegate_Handle(DestroySessionCompleteDelegateHandle);
+		MultiplayerOnDestroySessionComplete.Broadcast(false);
+	}
 }
 
 void UMultiplayerSessionsSubsystem::StartSession()
@@ -214,6 +233,28 @@ void UMultiplayerSessionsSubsystem::OnJoinSessionComplete(FName SessionName, EOn
 
 void UMultiplayerSessionsSubsystem::OnDestroySessionComplete(FName SessionName, bool bWasSuccessful)
 {
+	// Check if SessionInterface exists
+	if (SessionInterface) {
+		SessionInterface->ClearOnDestroySessionCompleteDelegate_Handle(DestroySessionCompleteDelegateHandle);
+	}
+	
+	// DebugMsg - Check if join session is success
+	if (GEngine) {
+		GEngine->AddOnScreenDebugMessage(
+			-1,
+			15.f,
+			FColor::Blue,
+			FString::Printf(TEXT("Subsystem - Destroy Session Success"))
+		);
+	}
+	
+	// Check if DestroySession() was called during CreateSession()
+	if (bWasSuccessful && bCreateSessionOnDestroy) {
+		bCreateSessionOnDestroy = false;
+		CreateSession(LastNumPublicConnections, LastMatchType);
+	}
+	
+	MultiplayerOnDestroySessionComplete.Broadcast(bWasSuccessful);
 }
 
 void UMultiplayerSessionsSubsystem::OnStartSessionComplete(FName SessionName, bool bWasSuccessful)

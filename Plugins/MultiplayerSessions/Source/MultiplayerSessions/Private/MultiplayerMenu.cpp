@@ -6,10 +6,11 @@
 #include "OnlineSubsystem.h"
 #include "Interfaces/OnlineSessionInterface.h"
 
-void UMultiplayerMenu::MultiplayerMenuSetup(int32 NumberOfPublicConnections, FString TypeOfMatch)
+void UMultiplayerMenu::MultiplayerMenuSetup(int32 NumberOfPublicConnections, FString TypeOfMatch, FString ListenLobby)
 {
 	NumPublicConnections = NumberOfPublicConnections;
 	MatchType = TypeOfMatch;
+	LobbyMap = ListenLobby;
 	AddToViewport();
 	SetVisibility(ESlateVisibility::Visible);
 	bIsFocusable = true;
@@ -79,7 +80,7 @@ void UMultiplayerMenu::OnCreateSession(bool bWasSuccessful)
 
 		UWorld* World = GetWorld();
 		if (World) {
-			World->ServerTravel("/Game/ThirdPerson/Maps/LobbyMap?listen");
+			World->ServerTravel("%s?listen", LobbyMap);
 		}
 	}
 	else {
