@@ -21,7 +21,7 @@ UMultiplayerSessionsSubsystem::UMultiplayerSessionsSubsystem():
 		if (GEngine) {
 			GEngine->AddOnScreenDebugMessage(
 				-1,
-				15.f,
+				60.f,
 				FColor::Blue,
 				FString::Printf(TEXT("Found subsystem: %s"), *Subsystem->GetSubsystemName().ToString())
 			);
@@ -65,7 +65,7 @@ void UMultiplayerSessionsSubsystem::CreateSession(int32 NumPublicConnections, FS
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(
 			-1,
-			15.f,
+			60.f,
 			FColor::Blue,
 			FString::Printf(TEXT("Subsystem - MatchType: %s"), *MatchType)
 		);
@@ -173,7 +173,7 @@ void UMultiplayerSessionsSubsystem::OnCreateSessionComplete(FName SessionName, b
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(
 			-1,
-			15.f,
+			60.f,
 			FColor::Blue,
 			FString::Printf(TEXT("Subsystem - Session Created"))
 		);
@@ -194,9 +194,9 @@ void UMultiplayerSessionsSubsystem::OnFindSessionsComplete(bool bWasSuccessful)
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(
 			-1,
-			15.f,
+			60.f,
 			FColor::Blue,
-			FString::Printf(TEXT("Subsystem - Session Search Results = %s"), LastSessionSearch->SearchResults.Num())
+			FString::Printf(TEXT("Subsystem - Session Search Results = %d"), LastSessionSearch->SearchResults.Num())
 		);
 	}
 
@@ -221,7 +221,7 @@ void UMultiplayerSessionsSubsystem::OnJoinSessionComplete(FName SessionName, EOn
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(
 			-1,
-			15.f,
+			60.f,
 			FColor::Blue,
 			FString::Printf(TEXT("Subsystem - Join Success"))
 		);
@@ -242,7 +242,7 @@ void UMultiplayerSessionsSubsystem::OnDestroySessionComplete(FName SessionName, 
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(
 			-1,
-			15.f,
+			60.f,
 			FColor::Blue,
 			FString::Printf(TEXT("Subsystem - Destroy Session Success"))
 		);
@@ -268,7 +268,7 @@ void UMultiplayerSessionsSubsystem::OnStartSessionComplete(FName SessionName, bo
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(
 			-1,
-			15.f,
+			60.f,
 			FColor::Blue,
 			FString::Printf(TEXT("Subsystem - Start Session Success"))
 		);

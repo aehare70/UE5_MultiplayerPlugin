@@ -55,8 +55,8 @@
 #define NDEBUG 1
 #define UE_BUILD_DEVELOPMENT 1
 #define UE_IS_ENGINE_MODULE 0
-#define UE_PROJECT_NAME SteamOnlineConfig
-#define UE_TARGET_NAME SteamOnlineConfigEditor
+#define UE_PROJECT_NAME FirstMPGame
+#define UE_TARGET_NAME FirstMPGameEditor
 #define UE_MODULE_NAME "MultiplayerSessions"
 #define UE_PLUGIN_NAME "MultiplayerSessions"
 #define IMPLEMENT_ENCRYPTION_KEY_REGISTRATION() 

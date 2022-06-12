@@ -10,7 +10,7 @@ void UMultiplayerMenu::MultiplayerMenuSetup(int32 NumberOfPublicConnections, FSt
 {
 	NumPublicConnections = NumberOfPublicConnections;
 	MatchType = TypeOfMatch;
-	LobbyMap = ListenLobby;
+	LobbyMap = FString::Printf(TEXT("%s?listen"), *ListenLobby);
 	AddToViewport();
 	SetVisibility(ESlateVisibility::Visible);
 	bIsFocusable = true;
@@ -72,7 +72,7 @@ void UMultiplayerMenu::OnCreateSession(bool bWasSuccessful)
 		if (GEngine) {
 			GEngine->AddOnScreenDebugMessage(
 				-1,
-				15.f,
+				60.f,
 				FColor::Yellow,
 				FString(TEXT("Session Created Successfully"))
 			);
@@ -80,7 +80,7 @@ void UMultiplayerMenu::OnCreateSession(bool bWasSuccessful)
 
 		UWorld* World = GetWorld();
 		if (World) {
-			World->ServerTravel("%s?listen", LobbyMap);
+			World->ServerTravel(LobbyMap);
 		}
 	}
 	else {
@@ -89,18 +89,25 @@ void UMultiplayerMenu::OnCreateSession(bool bWasSuccessful)
 		if (GEngine) {
 			GEngine->AddOnScreenDebugMessage(
 				-1,
-				15.f,
+				60.f,
 				FColor::Red,
 				FString(TEXT("Failed to create session"))
 			);
 		}
+
+		HostButton->SetIsEnabled(true);
 	}
 }
 
 void UMultiplayerMenu::OnFindSessions(const TArray<FOnlineSessionSearchResult>& SessionResults, bool bWasSuccessful)
 {
+	if (!bWasSuccessful) {
+		JoinButton->SetIsEnabled(true);
+	}
+
 	// Subsystem valid check
 	if (MultiplayerSessionsSubsystem == nullptr) {
+		JoinButton->SetIsEnabled(true);
 		return;
 	}
 
@@ -115,7 +122,7 @@ void UMultiplayerMenu::OnFindSessions(const TArray<FOnlineSessionSearchResult>& 
 			if (GEngine) {
 				GEngine->AddOnScreenDebugMessage(
 					-1,
-					15.f,
+					60.f,
 					FColor::Blue,
 					FString::Printf(TEXT("Found Session: %s"), *Id)
 				);
@@ -127,6 +134,10 @@ void UMultiplayerMenu::OnFindSessions(const TArray<FOnlineSessionSearchResult>& 
 
 void UMultiplayerMenu::OnJoinSession(EOnJoinSessionCompleteResult::Type Result)
 {
+	if (Result == EOnJoinSessionCompleteResult::UnknownError) {
+		JoinButton->SetIsEnabled(true);
+	}
+
 	// Get a copy of Session Interface from Subsystem
 	IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get();
 	if (Subsystem) {
@@ -140,7 +151,7 @@ void UMultiplayerMenu::OnJoinSession(EOnJoinSessionCompleteResult::Type Result)
 			if (GEngine) {
 				GEngine->AddOnScreenDebugMessage(
 					-1,
-					15.f,
+					60.f,
 					FColor::Blue,
 					FString::Printf(TEXT("Target Address: %s"), *Address)
 				);
@@ -166,6 +177,7 @@ void UMultiplayerMenu::OnStartSession(bool bWasSuccessful)
 
 void UMultiplayerMenu::HostButtonClicked()
 {
+	HostButton->SetIsEnabled(false);
 	if (MultiplayerSessionsSubsystem) {
 		MultiplayerSessionsSubsystem->CreateSession(NumPublicConnections, MatchType);
 	}
@@ -173,10 +185,11 @@ void UMultiplayerMenu::HostButtonClicked()
 
 void UMultiplayerMenu::JoinButtonClicked()
 {
+	JoinButton->SetIsEnabled(false);
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(
 			-1,
-			15.f,
+			60.f,
 			FColor::Yellow,
 			FString(TEXT("Join Button Clicked"))
 		);

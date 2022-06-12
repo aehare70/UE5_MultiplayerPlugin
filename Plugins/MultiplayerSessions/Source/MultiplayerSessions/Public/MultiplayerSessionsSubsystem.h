@@ -66,7 +66,7 @@ private:
 	TSharedPtr<FOnlineSessionSettings> LastSessionSettings;
 	TSharedPtr<FOnlineSessionSearch> LastSessionSearch;
 	bool bCreateSessionOnDestroy{false};
-	int32 LastNumOfPublicConnections{4};
+	int32 LastNumPublicConnections{4};
 	FString LastMatchType{TEXT("FreeForAll")};
 
 	//

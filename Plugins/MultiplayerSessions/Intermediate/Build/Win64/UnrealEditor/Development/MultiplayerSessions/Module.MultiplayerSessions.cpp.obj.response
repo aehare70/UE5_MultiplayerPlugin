@@ -1,6 +1,6 @@
-E:\UnrealProjects\SteamOnlineConfig\Plugins\MultiplayerSessions\Intermediate\Build\Win64\UnrealEditor\Development\MultiplayerSessions\Module.MultiplayerSessions.cpp
+E:\UnrealProjects\FirstMPGame\Plugins\MultiplayerSessions\Intermediate\Build\Win64\UnrealEditor\Development\MultiplayerSessions\Module.MultiplayerSessions.cpp
 /I .
-/I E:\UnrealProjects\SteamOnlineConfig\Plugins\MultiplayerSessions\Source\MultiplayerSessions\Private
+/I E:\UnrealProjects\FirstMPGame\Plugins\MultiplayerSessions\Source\MultiplayerSessions\Private
 /I ..\Intermediate\Build\Win64\UnrealEditor\Inc\CoreUObject
 /I Runtime
 /I Runtime\CoreUObject\Public
@@ -252,9 +252,9 @@ E:\UnrealProjects\SteamOnlineConfig\Plugins\MultiplayerSessions\Intermediate\Bui
 /I Runtime\ClothingSystemRuntimeInterface\Public
 /I ..\Intermediate\Build\Win64\UnrealEditor\Inc\AnimationDataController
 /I Developer\AnimationDataController\Public
-/I E:\UnrealProjects\SteamOnlineConfig\Plugins\MultiplayerSessions\Intermediate\Build\Win64\UnrealEditor\Inc\MultiplayerSessions
-/I E:\UnrealProjects\SteamOnlineConfig\Plugins\MultiplayerSessions\Source
-/I E:\UnrealProjects\SteamOnlineConfig\Plugins\MultiplayerSessions\Source\MultiplayerSessions\Public
+/I E:\UnrealProjects\FirstMPGame\Plugins\MultiplayerSessions\Intermediate\Build\Win64\UnrealEditor\Inc\MultiplayerSessions
+/I E:\UnrealProjects\FirstMPGame\Plugins\MultiplayerSessions\Source
+/I E:\UnrealProjects\FirstMPGame\Plugins\MultiplayerSessions\Source\MultiplayerSessions\Public
 /I ..\Plugins\Online\OnlineSubsystem\Intermediate\Build\Win64\UnrealEditor\Inc\OnlineSubsystem
 /I ..\Plugins\Online\OnlineSubsystem
 /I ..\Plugins\Online\OnlineSubsystem\Source
@@ -289,12 +289,12 @@ E:\UnrealProjects\SteamOnlineConfig\Plugins\MultiplayerSessions\Intermediate\Bui
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt"
-/FI"E:\UnrealProjects\SteamOnlineConfig\Intermediate\Build\Win64\SteamOnlineConfigEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h"
-/FI"E:\UnrealProjects\SteamOnlineConfig\Plugins\MultiplayerSessions\Intermediate\Build\Win64\UnrealEditor\Development\MultiplayerSessions\Definitions.MultiplayerSessions.h"
-/Yu"E:\UnrealProjects\SteamOnlineConfig\Intermediate\Build\Win64\SteamOnlineConfigEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h"
-/Fp"E:\UnrealProjects\SteamOnlineConfig\Intermediate\Build\Win64\SteamOnlineConfigEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.pch"
-/Fo"E:\UnrealProjects\SteamOnlineConfig\Plugins\MultiplayerSessions\Intermediate\Build\Win64\UnrealEditor\Development\MultiplayerSessions\Module.MultiplayerSessions.cpp.obj"
-/sourceDependencies E:\UnrealProjects\SteamOnlineConfig\Plugins\MultiplayerSessions\Intermediate\Build\Win64\UnrealEditor\Development\MultiplayerSessions\Module.MultiplayerSessions.cpp.json
+/FI"E:\UnrealProjects\FirstMPGame\Intermediate\Build\Win64\FirstMPGameEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h"
+/FI"E:\UnrealProjects\FirstMPGame\Plugins\MultiplayerSessions\Intermediate\Build\Win64\UnrealEditor\Development\MultiplayerSessions\Definitions.MultiplayerSessions.h"
+/Yu"E:\UnrealProjects\FirstMPGame\Intermediate\Build\Win64\FirstMPGameEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h"
+/Fp"E:\UnrealProjects\FirstMPGame\Intermediate\Build\Win64\FirstMPGameEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.pch"
+/Fo"E:\UnrealProjects\FirstMPGame\Plugins\MultiplayerSessions\Intermediate\Build\Win64\UnrealEditor\Development\MultiplayerSessions\Module.MultiplayerSessions.cpp.obj"
+/sourceDependencies E:\UnrealProjects\FirstMPGame\Plugins\MultiplayerSessions\Intermediate\Build\Win64\UnrealEditor\Development\MultiplayerSessions\Module.MultiplayerSessions.cpp.json
 /Zc:inline
 /nologo
 /Oi
